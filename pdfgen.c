@@ -222,12 +222,13 @@ static inline uint32_t bswap32(uint32_t x)
 #endif
 
 // Signatures for various image formats
+#ifndef __ORCAC__
 static const uint8_t bmp_signature[] = {'B', 'M'};
 static const uint8_t png_signature[] = {0x89, 0x50, 0x4E, 0x47,
                                         0x0D, 0x0A, 0x1A, 0x0A};
 static const uint8_t jpeg_signature[] = {0xff, 0xd8};
 static const uint8_t ppm_signature[] = {'P', '6'};
-
+#endif
 #ifdef __ORCAC__
 extern word userID;
 #endif
@@ -851,9 +852,9 @@ struct pdf_doc *pdf_create(float width, float height,
     }
     /* FIXME: Should be quoting PDF strings? */
     if (!obj->u.info->date[0]) {
+#ifndef __ORCAC__
         time_t now = time(NULL);
         struct tm tm;
-#ifndef __ORCAC__
 #ifdef _WIN32
         struct tm *tmp;
         tmp = localtime(&now);
@@ -1364,14 +1365,14 @@ int pdf_add_bookmark(struct pdf_doc *pdf, struct pdf_object *page, int16_t paren
 
 static int16_t utf8_to_utf32(const char *utf8, int16_t len, uint32_t *utf32)
 {
-    uint32_t ch = *(uint8_t *)utf8;
-    uint8_t mask;
-
 #ifdef __ORCAC__
     //this routine does not handle high ascii characters correctly. Need to look at this.
     *utf32 =  *utf8;
     return 1;
 #else
+    uint32_t ch = *(uint8_t *)utf8;
+    uint8_t mask;
+
     if ((ch & 0x80) == 0) {
         len = 1;
         mask = 0x7f;

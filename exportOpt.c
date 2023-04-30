@@ -65,9 +65,6 @@ void exportOpt(BFXferRecPtr xfer) {
     CtlRecHndl ctl;
     versionHndl   ver;
     bool done = false;
-    int j = 0;
-    word value = 0;
-    bool update = false;
     char verStr[10] = { 0 };
 
     userID = MMStartUp();

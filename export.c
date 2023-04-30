@@ -87,8 +87,6 @@ colorList colors[] = {
 };
 
 Handle newData = NULL;
-static long pos = 0;
-static long dataSize = 0;
 static GSString255 exportFile;
 struct pdf_doc *pdf;
 static float x = 0;
@@ -122,7 +120,7 @@ void exportStartup(BFXferRecPtr dataIn, BFResultOutPtr dataOut) {
     struct pdf_info info = {
         "Babelfish", "PDF Writer", "", "", "", ""
     };
-    TimeRec endTime, time = { 0 };
+    TimeRec time = { 0 };
 
     SystemUserID(userID, NULL);
     SystemEnvironmentInit();
